@@ -11,7 +11,7 @@ build:
   image: python:3.6-alpine
   before_script:
     - apk update -q --no-cache
-    - apk add -q --no-cache gcc bash make py-setuptools musl-dev
+    - apk add -q --no-cache gcc bash make py-setuptools musl-dev libxml2 libxml2-dev
     - python3 -m pip install -U pip
     - python3 -m pip install -r requirements.txt
   script:
@@ -24,7 +24,7 @@ upload-test:
   image: python:3.6-alpine
   before_script:
     - apk update -q --no-cache
-    - apk add -q --no-cache gcc bash make py-setuptools musl-dev
+    - apk add -q --no-cache gcc bash make py-setuptools musl-dev libxml2 libxml2-dev
     - python3 -m pip install -U pip
     - python3 -m pip install -r requirements.txt
   script:
@@ -37,7 +37,7 @@ upload-pypi:
   image: python:3.6-alpine
   before_script:
     - apk update -q --no-cache
-    - apk add -q --no-cache gcc bash make py-setuptools musl-dev
+    - apk add -q --no-cache gcc bash make py-setuptools musl-dev libxml2 libxml2-dev
     - python3 -m pip install -U pip
     - python3 -m pip install -r requirements.txt
   script:
