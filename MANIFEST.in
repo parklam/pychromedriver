@@ -1,2 +1,2 @@
 include VERSION.txt
-include py-chromedriver/chromedriver_*
+include pychromedriver/chromedriver_*
