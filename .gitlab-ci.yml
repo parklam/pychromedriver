@@ -1,0 +1,46 @@
+---
+stages:
+  - build
+  - release
+
+variables:
+  GIT_STRATEGY: clone
+
+build:
+  stage: build
+  image: ubuntu:latest
+  before_script:
+    - apt update && apt -yqq upgrade
+    - apt install gcc build-essential bash make git jq curl python3 python3-dev
+    - pip install -U pip setuptools
+    - pip install -r requirements.txt
+  script:
+    - make build
+  only:
+    - master
+
+upload-test:
+  stage: release
+  image: ubuntu:latest
+  before_script:
+    - apt update && apt -yqq upgrade
+    - apt install gcc build-essential bash make git jq curl python3 python3-dev
+    - pip install -U pip setuptools
+    - pip install -r requirements.txt
+  script:
+    - make upload-test
+  only:
+    - master
+
+upload-pypi:
+  stage: release
+  image: ubuntu:latest
+  before_script:
+    - apt update && apt -yqq upgrade
+    - apt install gcc build-essential bash make git jq curl python3 python3-dev
+    - pip install -U pip setuptools
+    - pip install -r requirements.txt
+  script:
+    - make upload-test
+  only:
+    - master
