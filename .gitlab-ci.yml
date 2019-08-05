@@ -8,12 +8,12 @@ variables:
 
 build:
   stage: build
-  image: ubuntu:latest
+  image: python:3.6-alpine
   before_script:
-    - apt-get update && apt-get -yqq upgrade
-    - apt-get install -yqq gcc build-essential bash make git jq curl python3 python3-pip
-    - pip3 install -U pip
-    - pip3 install -r requirements.txt
+    - apk update -q --no-cache
+    - apk add -q --no-cache gcc bash make py-setuptools musl-dev
+    - python3 -m pip install -U pip
+    - python3 -m pip install -r requirements.txt
   script:
     - make build
   only:
@@ -21,12 +21,12 @@ build:
 
 upload-test:
   stage: release
-  image: ubuntu:latest
+  image: python:3.6-alpine
   before_script:
-    - apt-get update && apt-get -yqq upgrade
-    - apt-get install -yqq gcc build-essential bash make git jq curl python3 python3-pip
-    - pip3 install -U pip
-    - pip3 install -r requirements.txt
+    - apk update -q --no-cache
+    - apk add -q --no-cache gcc bash make py-setuptools musl-dev
+    - python3 -m pip install -U pip
+    - python3 -m pip install -r requirements.txt
   script:
     - make upload-test
   only:
@@ -34,13 +34,13 @@ upload-test:
 
 upload-pypi:
   stage: release
-  image: ubuntu:latest
+  image: python:3.6-alpine
   before_script:
-    - apt-get update && apt-get -yqq upgrade
-    - apt-get install -yqq gcc build-essential bash make git jq curl python3 python3-pip
-    - pip3 install -U pip
-    - pip3 install -r requirements.txt
+    - apk update -q --no-cache
+    - apk add -q --no-cache gcc bash make py-setuptools musl-dev
+    - python3 -m pip install -U pip
+    - python3 -m pip install -r requirements.txt
   script:
-    - make upload-test
+    - make upload-pypi
   only:
     - master
