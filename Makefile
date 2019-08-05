@@ -24,24 +24,18 @@ init-venv:
 		&& pip install -q -r requirements.txt
 	@echo "Finish init-venv"
 
-.PHONY: update
-update: init-venv
-	@echo "Start update..."
-	@. ${VENV}/bin/activate \
-		&& python update.py
-	@echo "Finish update"
-
 .PHONY: build
-build: update
+build:
 	@echo "Start build..."
 	@. ${VENV}/bin/activate \
-		&& ./setup.py sdist bdist_wheel
+		&& python ./update.py \
+		&& python ./setup.py sdist bdist_wheel
 	@echo "Finish build"
 
 .PHONY: upload-test
-upload-test: clean update build
+upload-test: clean build
 	@echo "Start upload-test..."
-	. ${VENV}/bin/activate \
+	@. ${VENV}/bin/activate \
 		&& python -m twine upload \
 			-u ${PYPI_USER} \
 			-p ${PYPI_PASS} \
@@ -50,9 +44,9 @@ upload-test: clean update build
 	@echo "Finish upload-test"
 
 .PHONY: upload-pypi
-upload-pypi: clean update build
+upload-pypi: clean build
 	@echo "Start upload-pypi..."
-	. ${VENV}/bin/activate \
+	@. ${VENV}/bin/activate \
 		&& python -m twine upload \
 			-u ${PYPI_USER} \
 			-p ${PYPI_PASS} \

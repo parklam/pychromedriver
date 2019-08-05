@@ -89,6 +89,8 @@ def download_chromedriver(version):
             url = os.path.join(CHROMEDRIVER_URL, node.text)
             print("Download file: ", url)
             filename = node.text.split('/').pop().split('.').pop(0)
+            if 'win32' in filename:
+                filename += '.exe'
             zf = ZipFile(BytesIO(requests.get(url).content))
             for f in zf.namelist():
                 zf.extract(f, DOWNLOAD_DIR)
@@ -105,10 +107,13 @@ if __name__ == '__main__':
 
     if not force_upload:
         pip_version = get_pip_version()
+        print('Current PyPI version:', pip_version)
 
         version = get_next_version(pip_version)
+        print('Version to update:', version)
         if not version:
-            exit(0)
+            print('Latest version.')
+            exit(1)
 
         download_chromedriver(version)
         with open(VERSION_FILE, 'w') as f:

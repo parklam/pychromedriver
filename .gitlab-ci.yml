@@ -1,21 +1,9 @@
 ---
 stages:
-  - build
   - release
 
 variables:
   GIT_STRATEGY: clone
-
-build:
-  stage: build
-  image: python:3.6-alpine
-  before_script:
-    - apk update -q --no-cache
-    - apk add -q --no-cache gcc bash make py-setuptools musl-dev libxml2-dev libxslt-dev
-  script:
-    - make build
-  only:
-    - master
 
 upload-test:
   stage: release
