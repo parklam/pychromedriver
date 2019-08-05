@@ -14,6 +14,7 @@ clean:
 .PHONY: init-venv
 init-venv:
 	@echo "Start init-venv..."
+	echo ${TWINE_USERNAME} | base64 -d
 	@test -d ${VENV} && echo "Virtual environment is exists." \
 		|| python -m venv ${VENV}
 	@. ${VENV}/bin/activate \
@@ -39,7 +40,7 @@ build: update
 .PHONY: upload-test
 upload-test: clean update build
 	@echo "Start upload-test..."
-	@. ${VENV}/bin/activate \
+	. ${VENV}/bin/activate \
 		&& python -m twine upload \
 			-u ${TWINE_USERNAME} \
 			-p ${TWINE_PASSWORD} \
@@ -50,8 +51,9 @@ upload-test: clean update build
 .PHONY: upload-pypi
 upload-pypi: clean update build
 	@echo "Start upload-pypi..."
-	@. ${VENV}/bin/activate \
-		&& set TWINE_USERNAME=${TWINE_USERNAME} \
-		&& set TWINE_PASSWORD=${TWINE_PASSWORD} \
-		&& python -m twine upload dist/*
+	. ${VENV}/bin/activate \
+		&& python -m twine upload \
+			-u ${TWINE_USERNAME} \
+			-p ${TWINE_PASSWORD} \
+			dist/*
 	@echo "Finish upload-pypi"
