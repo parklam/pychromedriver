@@ -2,17 +2,6 @@ VENV=.venv
 PYPI_USER=$(shell echo ${TWINE_USERNAME} | base64 -d)
 PYPI_PASS=$(shell echo ${TWINE_PASSWORD} | base64 -d)
 
-.PHONY: clean
-clean:
-	@echo "Start clean..."
-	rm -rf build dist VERSION.txt
-	find . -name '__pycache__' -type d |xargs rm -rf
-	find . -name '*.egg-info' -type d |xargs rm -rf
-	find . -name '*.egg-info' -type f -delete
-	find . -name '*~' -type f -delete
-	find ./pychromedriver -name 'chromedriver_*' -type f -delete
-	@echo "Finish clean"
-
 .PHONY: init-venv
 init-venv:
 	@echo "Start init-venv..."
@@ -24,8 +13,19 @@ init-venv:
 		&& pip install -q -r requirements.txt
 	@echo "Finish init-venv"
 
+.PHONY: clean
+clean:
+	@echo "Start clean..."
+	rm -rf build dist VERSION.txt
+	find . -name '__pycache__' -type d |xargs rm -rf
+	find . -name '*.egg-info' -type d |xargs rm -rf
+	find . -name '*.egg-info' -type f -delete
+	find . -name '*~' -type f -delete
+	find ./pychromedriver -name 'chromedriver_*' -type f -delete
+	@echo "Finish clean"
+
 .PHONY: build
-build:
+build: init-venv
 	@echo "Start build..."
 	@. ${VENV}/bin/activate \
 		&& python ./update.py \
