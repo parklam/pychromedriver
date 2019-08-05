@@ -1,0 +1,2 @@
+include VERSION.txt
+include py-chromedriver/chromedriver_*
