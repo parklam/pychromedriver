@@ -30,7 +30,7 @@ update: init-venv
 	@echo "Finish update"
 
 .PHONY: build
-build: init-venv
+build: update
 	@echo "Start build..."
 	@. ${VENV}/bin/activate \
 		&& ./setup.py sdist bdist_wheel
