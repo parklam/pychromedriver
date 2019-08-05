@@ -1,4 +1,6 @@
 VENV=.venv
+PYPI_USER=$(shell echo ${TWINE_USERNAME} | base64 -d)
+PYPI_PASS=$(shell echo ${TWINE_PASSWORD} | base64 -d)
 
 .PHONY: clean
 clean:
@@ -14,7 +16,6 @@ clean:
 .PHONY: init-venv
 init-venv:
 	@echo "Start init-venv..."
-	echo ${TWINE_USERNAME} | base64 -d
 	@test -d ${VENV} && echo "Virtual environment is exists." \
 		|| python -m venv ${VENV}
 	@. ${VENV}/bin/activate \
@@ -42,8 +43,8 @@ upload-test: clean update build
 	@echo "Start upload-test..."
 	. ${VENV}/bin/activate \
 		&& python -m twine upload \
-			-u ${TWINE_USERNAME} \
-			-p ${TWINE_PASSWORD} \
+			-u ${PYPI_USER} \
+			-p ${PYPI_PASS} \
 			--repository-url 'https://test.pypi.org/legacy/' \
 			dist/*
 	@echo "Finish upload-test"
@@ -53,7 +54,7 @@ upload-pypi: clean update build
 	@echo "Start upload-pypi..."
 	. ${VENV}/bin/activate \
 		&& python -m twine upload \
-			-u ${TWINE_USERNAME} \
-			-p ${TWINE_PASSWORD} \
+			-u ${PYPI_USER} \
+			-p ${PYPI_PASS} \
 			dist/*
 	@echo "Finish upload-pypi"
