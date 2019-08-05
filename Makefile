@@ -14,8 +14,8 @@ clean:
 .PHONY: init-venv
 init-venv:
 	@echo "Start init-venv..."
-	@command -v gettext >/dev/null 2>&1 ||sudo apt install gettext
-	@test -d ${VENV} && echo "Virtual environment is exists." || python3 -m venv ${VENV}
+	@test -d ${VENV} && echo "Virtual environment is exists." \
+		|| python3 -m venv ${VENV}
 	@. ${VENV}/bin/activate \
 		&& echo "Installing python libraries..." \
 		&& python3 -m pip install -q --upgrade pip \
@@ -23,21 +23,21 @@ init-venv:
 	@echo "Finish init-venv"
 
 .PHONY: update
-update:
+update: init-venv
 	@echo "Start update..."
 	@. ${VENV}/bin/activate \
 		&& python update.py
 	@echo "Finish update"
 
 .PHONY: build
-build: update
+build: init-venv
 	@echo "Start build..."
 	@. ${VENV}/bin/activate \
 		&& ./setup.py sdist bdist_wheel
 	@echo "Finish build"
 
 .PHONY: upload-test
-upload-test: clean build
+upload-test: clean update build
 	@echo "Start upload-test..."
 	@. ${VENV}/bin/activate \
 		&& python -m twine upload \
@@ -48,7 +48,7 @@ upload-test: clean build
 	@echo "Finish upload-test"
 
 .PHONY: upload-pypi
-upload-pypi: clean build
+upload-pypi: clean update build
 	@echo "Start upload-pypi..."
 	@. ${VENV}/bin/activate \
 		&& set TWINE_USERNAME=${TWINE_USERNAME} \
