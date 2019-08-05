@@ -11,7 +11,7 @@ build:
   image: ubuntu:latest
   before_script:
     - apt update && apt -yqq upgrade
-    - apt install -yqq gcc build-essential bash make git jq curl python3 python3-dev
+    - apt install -yqq gcc build-essential bash make git jq curl python3 python3-dev python3-pip python3-setuptools
     - pip install -U pip setuptools
     - pip install -r requirements.txt
   script:
@@ -24,7 +24,7 @@ upload-test:
   image: ubuntu:latest
   before_script:
     - apt update && apt -yqq upgrade
-    - apt install -yqq gcc build-essential bash make git jq curl python3 python3-dev
+    - apt install -yqq gcc build-essential bash make git jq curl python3 python3-dev python3-pip python3-setuptools
     - pip install -U pip setuptools
     - pip install -r requirements.txt
   script:
@@ -37,7 +37,7 @@ upload-pypi:
   image: ubuntu:latest
   before_script:
     - apt update && apt -yqq upgrade
-    - apt install -yqq gcc build-essential bash make git jq curl python3 python3-dev
+    - apt install -yqq gcc build-essential bash make git jq curl python3 python3-dev python3-pip python3-setuptools
     - pip install -U pip setuptools
     - pip install -r requirements.txt
   script:
