@@ -12,8 +12,6 @@ build:
   before_script:
     - apk update -q --no-cache
     - apk add -q --no-cache gcc bash make py-setuptools musl-dev libxml2-dev libxslt-dev
-    - python3 -m pip install -U pip
-    - python3 -m pip install -r requirements.txt
   script:
     - make build
   only:
@@ -25,8 +23,6 @@ upload-test:
   before_script:
     - apk update -q --no-cache
     - apk add -q --no-cache gcc bash make py-setuptools musl-dev libxml2-dev libxslt-dev
-    - python3 -m pip install -U pip
-    - python3 -m pip install -r requirements.txt
   script:
     - make upload-test
   only:
@@ -38,8 +34,6 @@ upload-pypi:
   before_script:
     - apk update -q --no-cache
     - apk add -q --no-cache gcc bash make py-setuptools musl-dev libxml2-dev libxslt-dev
-    - python3 -m pip install -U pip
-    - python3 -m pip install -r requirements.txt
   script:
     - make upload-pypi
   only:

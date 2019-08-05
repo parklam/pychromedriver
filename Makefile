@@ -15,11 +15,11 @@ clean:
 init-venv:
 	@echo "Start init-venv..."
 	@test -d ${VENV} && echo "Virtual environment is exists." \
-		|| python3 -m venv ${VENV}
+		|| python -m venv ${VENV}
 	@. ${VENV}/bin/activate \
 		&& echo "Installing python libraries..." \
-		&& python3 -m pip install -q --upgrade pip \
-		&& python3 -m pip install -q -r requirements.txt
+		&& pip install -q --upgrade pip \
+		&& pip install -q -r requirements.txt
 	@echo "Finish init-venv"
 
 .PHONY: update
