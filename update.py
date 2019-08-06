@@ -96,6 +96,7 @@ def download_chromedriver(version):
                 zf.extract(f, DOWNLOAD_DIR)
                 os.rename(os.path.join(DOWNLOAD_DIR, f), \
                         os.path.join(DOWNLOAD_DIR, filename))
+                os.chmod(os.path.join(DOWNLOAD_DIR, filename), 0o755)
 
 
 if __name__ == '__main__':
