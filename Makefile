@@ -29,26 +29,31 @@ build: init-venv
 	@echo "Start build..."
 	@. ${VENV}/bin/activate \
 		&& python ./update.py \
-		&& python ./setup.py sdist bdist_wheel
+		&& python ./setup.py sdist bdist_wheel \
+		|| :
 	@echo "Finish build"
 
 .PHONY: upload-test
 upload-test: clean build
 	@echo "Start upload-test..."
-	@. ${VENV}/bin/activate \
+	@test -f VERSION.txt \
+		&& . ${VENV}/bin/activate \
 		&& python -m twine upload \
 			-u ${PYPI_USER} \
 			-p ${PYPI_PASS} \
 			--repository-url 'https://test.pypi.org/legacy/' \
-			dist/*
+			dist/* \
+		|| :
 	@echo "Finish upload-test"
 
 .PHONY: upload-pypi
 upload-pypi: clean build
 	@echo "Start upload-pypi..."
-	@. ${VENV}/bin/activate \
+	@test -f VERSION.txt \
+		&& . ${VENV}/bin/activate \
 		&& python -m twine upload \
 			-u ${PYPI_USER} \
 			-p ${PYPI_PASS} \
-			dist/*
+			dist/* \
+		|| :
 	@echo "Finish upload-pypi"
