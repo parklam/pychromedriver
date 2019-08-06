@@ -5,7 +5,7 @@ stages:
 variables:
   GIT_STRATEGY: clone
 
-upload-test:
+.upload-test:
   stage: release
   image: python:3.6-alpine
   before_script:
