@@ -7,7 +7,7 @@ variables:
 
 .upload-test:
   stage: release
-  image: python:3.6-alpine
+  image: python:3.7-alpine
   before_script:
     - apk update -q --no-cache
     - |
@@ -20,7 +20,7 @@ variables:
 
 upload-pypi:
   stage: release
-  image: python:3.6-alpine
+  image: python:3.7-alpine
   before_script:
     - apk update -q --no-cache
     - |
