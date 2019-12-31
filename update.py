@@ -25,6 +25,7 @@ FILE_EXT = '.zip'
 
 DOWNLOAD_DIR = './pychromedriver/'
 VERSION_FILE = './VERSION.txt'
+MINI_VERSION = '69.0'
 
 def compare_version(alpha, beta):
     alpha_arr = alpha.split('.')
@@ -74,8 +75,11 @@ def get_chromedriver_versions():
         result = re.match(ver_regex, info.text)
         if result:
             version, _ = info.text.split('/')
+            if len(version.split('.')) > 2:
+                version = '.'.join(version.split('.')[0:2])
             if version not in version_lst:
                 version_lst.append(version)
+    sorted(version_lst, key=lambda v: float(v))
     return version_lst
 
 def download_chromedriver(version):
@@ -83,7 +87,7 @@ def download_chromedriver(version):
     cont = requests.get(CHROMEDRIVER_URL).text
     doc = et.fromstring(cont.encode('utf8'))
     ns = { 's3': doc.xpath('namespace-uri(.)') }
-    ver_regex = r'%s/chromedriver_(win32|linux32|mac32|linux64|mac64).\w{3}' % version
+    ver_regex = r'%s(\.+\w+)*/chromedriver_(win32|linux32|mac32|linux64|mac64).\w{3}' % version
     for node in doc.xpath('//s3:Contents/s3:Key', namespaces=ns):
         if re.match(ver_regex, node.text):
             url = os.path.join(CHROMEDRIVER_URL, node.text)
@@ -109,11 +113,13 @@ if __name__ == '__main__':
     if not force_upload:
         pip_version = get_pip_version()
         print('Current PyPI version:', pip_version)
+        if compare_version(pip_version, MINI_VERSION) == -1:
+            pip_version = MINI_VERSION
 
         version = get_next_version(pip_version)
         print('Version to update:', version)
         if not version:
-            print('Latest version.')
+            print('Latest version already.')
             exit(1)
 
         download_chromedriver(version)

@@ -6,7 +6,7 @@ PYPI_PASS=$(shell echo ${TWINE_PASSWORD} | base64 -d)
 init-venv:
 	@echo "Start init-venv..."
 	@test -d ${VENV} && echo "Virtual environment is exists." \
-		|| python -m venv ${VENV}
+		|| python3 -m venv ${VENV}
 	@. ${VENV}/bin/activate \
 		&& echo "Installing python libraries..." \
 		&& pip install -q --upgrade pip \
