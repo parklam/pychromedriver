@@ -12,7 +12,7 @@ variables:
     - apk update -q --no-cache
     - |
       apk add -q --no-cache gcc bash make py-setuptools musl-dev \
-        libxml2-dev libxslt-dev libffi-dev libssl-dev
+        libxml2-dev libxslt-dev libffi-dev openssl-dev
   script:
     - make upload-test
   only:
@@ -25,7 +25,7 @@ upload-pypi:
     - apk update -q --no-cache
     - |
       apk add -q --no-cache gcc bash make py-setuptools musl-dev \
-      libxml2-dev libxslt-dev libffi-dev libssl-dev
+      libxml2-dev libxslt-dev libffi-dev openssl-dev
   script:
     - make upload-pypi
   only:
