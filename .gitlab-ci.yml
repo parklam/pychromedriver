@@ -10,7 +10,9 @@ variables:
   image: python:3.6-alpine
   before_script:
     - apk update -q --no-cache
-    - apk add -q --no-cache gcc bash make py-setuptools musl-dev libxml2-dev libxslt-dev libffi-dev
+    - |
+      apk add -q --no-cache gcc bash make py-setuptools musl-dev \
+        libxml2-dev libxslt-dev libffi-dev libssl-dev
   script:
     - make upload-test
   only:
@@ -21,7 +23,9 @@ upload-pypi:
   image: python:3.6-alpine
   before_script:
     - apk update -q --no-cache
-    - apk add -q --no-cache gcc bash make py-setuptools musl-dev libxml2-dev libxslt-dev libffi-dev
+    - |
+      apk add -q --no-cache gcc bash make py-setuptools musl-dev \
+      libxml2-dev libxslt-dev libffi-dev libssl-dev
   script:
     - make upload-pypi
   only:
