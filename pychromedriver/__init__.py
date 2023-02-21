@@ -24,7 +24,7 @@ def _get_filename():
         else:
             raise Exception('OS not supported')
 
-        path += '64' if arch.endswith('64') else '32'
+        path += "_" + arch if arch.endswith('64') else '32'
         if not os.path.exists(path):
             raise FileNotFoundError('ChromeDriver for {}({}) '
                     'is not found.'.format(sys, arch))
